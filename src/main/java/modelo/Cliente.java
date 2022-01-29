@@ -6,11 +6,12 @@ public class Cliente {
 	private String nombreCliente;
 	private String apellidoCliente;
 	private String aniosCliente;
-	private Categoria nombreCategoria;
+	private CategoriaEnum nombreCategoria;
 	
+	public Cliente() {}
 	//constructor con parámetros
 	public Cliente(String runCliente, String nombreCliente, String apellidoCliente, String aniosCliente,
-			Categoria nombreCategoria) {
+			CategoriaEnum nombreCategoria) {
 		
 		this.runCliente = runCliente;
 		this.nombreCliente = nombreCliente;
@@ -36,7 +37,7 @@ public class Cliente {
 		return aniosCliente;
 	}
 
-	public Categoria getNombreCategoria() {
+	public CategoriaEnum getNombreCategoria() {
 		return nombreCategoria;
 	}
 	
@@ -57,7 +58,7 @@ public class Cliente {
 		this.aniosCliente = aniosCliente;
 	}
 
-	public void setNombreCategoria(Categoria nombreCategoria) {
+	public void setNombreCategoria(CategoriaEnum nombreCategoria) {
 		this.nombreCategoria = nombreCategoria;
 	}
 	

@@ -2,7 +2,6 @@ package vistas;
 
 import java.util.Scanner;
 
-import modelo.Categoria;
 import modelo.CategoriaEnum;
 import servicio.ArchivoServicio;
 import servicio.ClienteServicio;
@@ -46,10 +45,9 @@ public class Menu extends MenuTemplate {
 		System.out.println();
 		System.out.println("Ingresar años como Cliente: ");
 		String anios = sc.next();
-		Categoria cat = new Categoria(CategoriaEnum.Activo);
 		System.out.println();
 		System.out.println("---------------------------------------");
-		clienteServicio.agregarCliente(run, nom, ape, anios, cat);
+		clienteServicio.agregarCliente(run, nom, ape, anios, CategoriaEnum.Activo);
 	}
 
 	@Override
@@ -69,12 +67,13 @@ public class Menu extends MenuTemplate {
 			System.out.println("---------------------------------------");
 			switch (opt) {
 			case 1:
-				System.out.println("Ingrese el run del Cliente a editar");
+				System.out.println("Ingrese el RUN del Cliente a editar");
 				run = sc.next();
-				existe = clienteServicio.buscarCliente(run);
-				if (existe == true) {
-//					clienteServicio.getListaClientes().stream().filter(c -> c.getRunCliente()).findFirst();
-				}
+
+					System.out.println("-----Actualizando estado del Cliente----");
+
+					System.out.println("El estado actual del Cliente es: ");
+				
 				break;
 			case 2:
 
@@ -92,7 +91,8 @@ public class Menu extends MenuTemplate {
 
 	@Override
 	public void importarDatos() {
-		archivoServicio.cargarDatos(fileName1);
+		
+		clienteServicio.setListaClientes(archivoServicio.cargarDatos(fileName1));
 	}
 
 	@Override
@@ -103,6 +103,7 @@ public class Menu extends MenuTemplate {
 	@Override
 	public void terminarPrograma() {
 		ut.limpiar();
+		ut.mensajePrograma();
 	}
 
 }

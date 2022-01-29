@@ -2,20 +2,21 @@ package servicio;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import modelo.CategoriaEnum;
 import modelo.Cliente;
+import utilidades.Utilidad;
 
 public class ArchivoServicio extends Exportador {
 	private Scanner sc = new Scanner(System.in);
 	private ExportadorTxt et = new ExportadorTxt();
 	private ExportadorCsv ec = new ExportadorCsv();
+	private Utilidad ut = new Utilidad();
 
 	public ArchivoServicio(ExportadorTxt et, ExportadorCsv ec) {
 
@@ -23,17 +24,17 @@ public class ArchivoServicio extends Exportador {
 		this.ec = ec;
 	}
 
-	public List<Cliente> cargarDatos(String fileName) {
+	public Map<String, Cliente> cargarDatos(String fileName) {
 
 		File archivo;
-		List<Cliente> listaCliente = new ArrayList<Cliente>();
+		Map<String, Cliente> listaCliente = new HashMap<String, Cliente>();
+		
+		System.out.println("Ingrese su nombre de usuario de su equipo");
+		String us = sc.next();
 
-		System.out.println("Ingrese la ruta donde se encuentra el archivo: ");
+		String path = "C://Users/" + us + "/Desktop/" + fileName;
 
-		String ruta = sc.next();
-		String path = String.format("%s//%s", ruta, fileName);
-
-		archivo = new File(ruta);
+		archivo = new File(path);
 		if (archivo.exists()) {
 
 			try {
@@ -42,28 +43,36 @@ public class ArchivoServicio extends Exportador {
 				String data = lector.readLine();
 				while (data != null) {
 					String[] datos = data.split(",");
-					Cliente cli = new Cliente(datos[0], datos[1], datos[2], datos[3], null);
-					if (datos[4].equals("Activo")) {
-						cli.getNombreCategoria().setEstado(CategoriaEnum.Activo);
-					} else {
-						cli.getNombreCategoria().setEstado(CategoriaEnum.Inactivo);
-					}
-					listaCliente.add(cli);
+					Cliente cli = new Cliente();
+//					if (datos[4].equals("Activo")) {
+//						cli.getNombreCategoria().setEstado(CategoriaEnum.Activo);
+//					} else {
+//						cli.getNombreCategoria().setEstado(CategoriaEnum.Inactivo);
+//					}
+					cli.setRunCliente(datos[0]);
+					cli.setNombreCliente(datos[1]);
+					cli.setApellidoCliente(datos[2]);
+					cli.setAniosCliente(datos[3]);
+					cli.setNombreCategoria(CategoriaEnum.Activo);
+					listaCliente.put(datos[0], cli);
 					data = lector.readLine();
 				}
-			} catch (FileNotFoundException e) {
-				System.out.println("no se pudo encontrar el archivo");
+			} catch (NullPointerException e) {
+				System.out.println("No se aceptan nulos");
 			} catch (IOException e) {
 				// TODO: handle exception
 			}
+			System.out.println("Datos cargados correctamente");
 
+		}else {
+			System.out.println("El archivo no existe");
 		}
 
 		return listaCliente;
 	}
 
 	@Override
-	public void exportar(String fileName, List<Cliente> listaClientes) {
+	public void exportar(String fileName, Map<String, Cliente> listaClientes) {
 		int op = 0;
 		do {
 			System.out.println("¿Cómo desea exportar?");
@@ -80,7 +89,9 @@ public class ArchivoServicio extends Exportador {
 				ec.exportar(fileName, listaClientes);
 				break;
 			case 3:
-				System.out.println("Saliendo");
+				ut.limpiar();
+				ut.mensajeMenu();
+				
 				break;
 			default:
 				break;

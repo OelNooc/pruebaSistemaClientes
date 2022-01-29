@@ -4,29 +4,27 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 import modelo.Cliente;
 
 public class ExportadorCsv extends Exportador {
+	private Scanner sc = new Scanner (System.in);
 
 	@Override
-	public void exportar(String fileName, List<Cliente> listaClientes) {
+	public void exportar(String fileName, Map<String, Cliente> listaClientes) {
 		try {
-			System.out.println("Ingrese su sistema operativo (windows, mac, o linux: ");
-			@SuppressWarnings("resource")
-			Scanner sc = new Scanner (System.in);
-			String so = sc.next();
+			System.out.println("Ingrese su nombre de usuario de su equipo");
+			String us = sc.next();
+
+			String path = "C://Users/" + us + "/Desktop/";
 			File directorio;
 			File fichero;
-			if (so.equals("windows")) {
-				directorio = new File("C://usuario/equipo/Desktop");
-				fichero = new File("C://usuario/equipo/Desktop/clientes.csv");
-			} else {
-				directorio = new File("home/usuario/Desktop");
-				fichero = new File("home/usuario/Desktop/clientes.csv");
-			}		
+			
+			directorio = new File(path);
+			fichero = new File(path + fileName +".csv");
 			
 				if (!directorio.exists()) {
 					directorio.mkdirs();
@@ -35,10 +33,10 @@ public class ExportadorCsv extends Exportador {
 							fichero.createNewFile();
 							FileWriter fileW = new FileWriter(fichero);
 							BufferedWriter bW = new BufferedWriter(fileW);
-							for (Cliente cliente: listaClientes) {
-								String cli = String.format("%s, %s, %s, %s años, %s", cliente.getRunCliente(),
-										cliente.getNombreCliente(), cliente.getApellidoCliente(), cliente.getAniosCliente(),
-										String.valueOf(cliente.getNombreCategoria()));
+							for (Entry<String, Cliente> cliente: listaClientes.entrySet()) {
+								String cli = String.format("%s, %s, %s, %s años, %s", cliente.getValue().getRunCliente(),
+										cliente.getValue().getNombreCliente(), cliente.getValue().getApellidoCliente(),
+										cliente.getValue().getAniosCliente(), String.valueOf(cliente.getValue().getNombreCategoria()));
 								bW.write(cli);
 								bW.newLine();
 							}
@@ -60,10 +58,10 @@ public class ExportadorCsv extends Exportador {
 						fichero.createNewFile();
 						FileWriter fileW = new FileWriter(fichero);
 						BufferedWriter bW = new BufferedWriter(fileW);
-						for (Cliente cliente: listaClientes) {
-							String cli = String.format("%s, %s, %s, %s años, %s", cliente.getRunCliente(),
-									cliente.getNombreCliente(), cliente.getApellidoCliente(), cliente.getAniosCliente(),
-									String.valueOf(cliente.getNombreCategoria()));
+						for (Entry<String, Cliente> cliente: listaClientes.entrySet()) {
+							String cli = String.format("%s, %s, %s, %s años, %s", cliente.getValue().getRunCliente(),
+									cliente.getValue().getNombreCliente(), cliente.getValue().getApellidoCliente(),
+									cliente.getValue().getAniosCliente(), String.valueOf(cliente.getValue().getNombreCategoria()));
 							bW.write(cli);
 							bW.newLine();
 						}

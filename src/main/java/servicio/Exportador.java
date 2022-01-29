@@ -1,10 +1,10 @@
 package servicio;
 
-import java.util.List;
+import java.util.Map;
 
 import modelo.Cliente;
 
 public abstract class Exportador {
 	
-public abstract  void exportar(String fileName, List<Cliente> listaClientes);
+public abstract  void exportar(String fileName, Map<String, Cliente> listaClientes);
 }

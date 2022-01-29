@@ -4,29 +4,27 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Map.Entry;
 
 import modelo.Cliente;
 
 public class ExportadorTxt extends Exportador {
+	private Scanner sc = new Scanner (System.in);
 
 	@Override
-	public void exportar(String fileName, List<Cliente> listaClientes) {
+	public void exportar(String fileName, Map<String, Cliente> listaClientes) {
 		try {
-			System.out.println("Ingrese su sistema operativo (windows, mac, o linux: ");
-			@SuppressWarnings("resource")
-			Scanner sc = new Scanner (System.in);
-			String so = sc.next();
+			System.out.println("Ingrese su nombre de usuario de su equipo");
+			String us = sc.next();
+
+			String path = "C://Users/" + us + "/Desktop/";
 			File directorio;
 			File fichero;
-			if (so.equals("windows")) {
-				directorio = new File("C://usuario/equipo/Desktop");
-				fichero = new File("C://usuario/equipo/Desktop/clientes.txt");
-			} else {
-				directorio = new File("home/usuario/Desktop");
-				fichero = new File("home/usuario/Desktop/clientes.txt");
-			}		
+			
+			directorio = new File(path);
+			fichero = new File(path + fileName +".txt");
 			
 				if (!directorio.exists()) {
 					directorio.mkdirs();
@@ -35,18 +33,18 @@ public class ExportadorTxt extends Exportador {
 							fichero.createNewFile();
 							FileWriter fileW = new FileWriter(fichero);
 							BufferedWriter bW = new BufferedWriter(fileW);
-							for (Cliente cliente: listaClientes) {
+							for (Entry<String, Cliente> cliente: listaClientes.entrySet()) {
 								bW.write("Datos Cliente: ");
 								bW.newLine();
-								bW.write("Run Cliente: " + cliente.getRunCliente());
+								bW.write("Run Cliente: " + cliente.getValue().getRunCliente());
 								bW.newLine();
-								bW.write("Nombre Cliente: " + cliente.getNombreCliente());
+								bW.write("Nombre Cliente: " + cliente.getValue().getNombreCliente());
 								bW.newLine();
-								bW.write("Apellido Cliente: " + cliente.getApellidoCliente());
+								bW.write("Apellido Cliente: " + cliente.getValue().getApellidoCliente());
 								bW.newLine();
-								bW.write("Años Cliente: " + cliente.getAniosCliente());
+								bW.write("Años como Cliente: " + cliente.getValue().getAniosCliente());
 								bW.newLine();
-								bW.write("Categoría Cliente: " + String.valueOf(cliente.getNombreCategoria()));
+								bW.write("Categoría Cliente: " + String.valueOf(cliente.getValue().getNombreCategoria()));
 								bW.newLine();
 							}
 							bW.close();
@@ -67,18 +65,18 @@ public class ExportadorTxt extends Exportador {
 						fichero.createNewFile();
 						FileWriter fileW = new FileWriter(fichero);
 						BufferedWriter bW = new BufferedWriter(fileW);
-						for (Cliente cliente: listaClientes) {
+						for (Entry<String, Cliente> cliente: listaClientes.entrySet()) {
 							bW.write("Datos Cliente: ");
 							bW.newLine();
-							bW.write("Run Cliente: " + cliente.getRunCliente());
+							bW.write("Run Cliente: " + cliente.getValue().getRunCliente());
 							bW.newLine();
-							bW.write("Nombre Cliente: " + cliente.getNombreCliente());
+							bW.write("Nombre Cliente: " + cliente.getValue().getNombreCliente());
 							bW.newLine();
-							bW.write("Apellido Cliente: " + cliente.getApellidoCliente());
+							bW.write("Apellido Cliente: " + cliente.getValue().getApellidoCliente());
 							bW.newLine();
-							bW.write("Años Cliente: " + cliente.getAniosCliente());
+							bW.write("Años como Cliente: " + cliente.getValue().getAniosCliente());
 							bW.newLine();
-							bW.write("Categoría Cliente: " + String.valueOf(cliente.getNombreCategoria()));
+							bW.write("Categoría Cliente: " + String.valueOf(cliente.getValue().getNombreCategoria()));
 							bW.newLine();
 						}
 						bW.close();
