@@ -18,7 +18,7 @@ public class ArchivoServicio extends Exportador {
 	private ExportadorCsv ec = new ExportadorCsv();
 
 	public ArchivoServicio(ExportadorTxt et, ExportadorCsv ec) {
-		
+
 		this.et = et;
 		this.ec = ec;
 	}
@@ -28,43 +28,35 @@ public class ArchivoServicio extends Exportador {
 		File archivo;
 		List<Cliente> listaCliente = new ArrayList<Cliente>();
 
-		System.out.println("Ingrese su sistema operativo (windows, mac, linux): ");
+		System.out.println("Ingrese la ruta donde se encuentra el archivo: ");
 
-		String so = sc.next();
-		try {
-			if (so.equals("windows")) {
-				archivo = new File("C://usuario/equipo/Desktop/" + fileName);
-			} else {
-				archivo = new File("home/usuario/Desktop/" + fileName);
-			}
-			if (archivo.exists()) {
+		String ruta = sc.next();
+		String path = String.format("%s//%s", ruta, fileName);
 
-				try {
-					FileReader fR = new FileReader(archivo);
-					BufferedReader lector = new BufferedReader(fR);
-					String data = lector.readLine();
-					while (data != null) {
-						String[] datos = data.split(",");
-						Cliente cli = new Cliente(datos[0], datos[1], datos[2], datos[3], null);
-						if (datos[4].equals("Activo")) {
-							cli.getNombreCategoria().setEstado(CategoriaEnum.Activo);
-						} else {
-							cli.getNombreCategoria().setEstado(CategoriaEnum.Inactivo);
-						}
-						listaCliente.add(cli);
-						data = lector.readLine();
+		archivo = new File(ruta);
+		if (archivo.exists()) {
+
+			try {
+				FileReader fR = new FileReader(archivo);
+				BufferedReader lector = new BufferedReader(fR);
+				String data = lector.readLine();
+				while (data != null) {
+					String[] datos = data.split(",");
+					Cliente cli = new Cliente(datos[0], datos[1], datos[2], datos[3], null);
+					if (datos[4].equals("Activo")) {
+						cli.getNombreCategoria().setEstado(CategoriaEnum.Activo);
+					} else {
+						cli.getNombreCategoria().setEstado(CategoriaEnum.Inactivo);
 					}
-				} catch (FileNotFoundException e) {
-					System.out.println("no se pudo encontrar el archivo");
-				} catch (IOException e) {
-					// TODO: handle exception
+					listaCliente.add(cli);
+					data = lector.readLine();
 				}
-
+			} catch (FileNotFoundException e) {
+				System.out.println("no se pudo encontrar el archivo");
+			} catch (IOException e) {
+				// TODO: handle exception
 			}
-		} catch (NullPointerException e) {
-			System.out.println("no se aceptan nulos en la creación de archivos");
-		} catch (SecurityException e) {
-			System.out.println("no tienes acceso para crear o modificar el fichero");
+
 		}
 
 		return listaCliente;

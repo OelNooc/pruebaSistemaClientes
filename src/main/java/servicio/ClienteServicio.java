@@ -30,6 +30,15 @@ public class ClienteServicio {
 		this.listaClientes.add(cliente);
 	}
 	
+	public boolean buscarCliente(String run) {
+		Cliente client = this.listaClientes.stream().filter(c -> c.getRunCliente().equals(run)).findFirst().orElse(null);
+		if (client != null) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	public void editarCliente(String runCliente, String nombreCliente, String apellidoCliente, String aniosCliente,
 			Categoria Activo) {
 		

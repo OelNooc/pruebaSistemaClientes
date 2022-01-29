@@ -22,46 +22,6 @@ public class Menu extends MenuTemplate {
 	private Scanner sc = new Scanner(System.in);
 	private Utilidad ut = new Utilidad();
 
-	public void iniciarMenu() {
-		int opcion = 0;
-		do {
-			System.out.println("1. Listar Clientes");
-			System.out.println("2. Agregar Cliente");
-			System.out.println("3. Editar Cliente");
-			System.out.println("4. Cargar Datos");
-			System.out.println("5. Exportar Datos");
-			System.out.println("6. Salir");
-			System.out.println("Ingrese una opción: ");
-			opcion = sc.nextInt();
-
-			switch (opcion) {
-			case 1:
-				listarClientes();
-				break;
-			case 2:
-				agregarCliente();
-				break;
-			case 3:
-
-				break;
-			case 4:
-				importarDatos();
-				break;
-			case 5:
-				exportarDatos();
-				break;
-			case 6:
-				terminarPrograma();
-				break;
-
-			default:
-				System.out.println("La opción ingresada no es válida");
-				break;
-			}
-		} while (opcion != 6);
-
-	}
-
 	@Override
 	public void listarClientes() {
 		System.out.println("-------------Datos del Cliente-------------");
@@ -94,6 +54,39 @@ public class Menu extends MenuTemplate {
 
 	@Override
 	public void editarCliente() {
+		System.out.println("-------------Editar Cliente-------------");
+		System.out.println("Seleccione qué desea hacer: ");
+		System.out.println("1.- Cambiar el estado del Cliente");
+		System.out.println("2.- Editar los datos ingresados del Cliente");
+		System.out.println("3.- Salir");
+		System.out.println();
+		System.out.println("Ingrese su opción: ");
+		int opt = 0;
+		String run = "";
+		boolean existe;
+		do {
+			opt = sc.nextInt();
+			System.out.println("---------------------------------------");
+			switch (opt) {
+			case 1:
+				System.out.println("Ingrese el run del Cliente a editar");
+				run = sc.next();
+				existe = clienteServicio.buscarCliente(run);
+				if (existe == true) {
+//					clienteServicio.getListaClientes().stream().filter(c -> c.getRunCliente()).findFirst();
+				}
+				break;
+			case 2:
+
+				break;
+			case 3:
+				System.out.println("Saliendo");
+				break;
+
+			default:
+				break;
+			}
+		} while (opt != 3);
 
 	}
 
