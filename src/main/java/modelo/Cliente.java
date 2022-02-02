@@ -63,6 +63,9 @@ public class Cliente {
 	}
 	
 	//toString
+	/**
+	 *Ordena los datos del cliente para que el toString salga más ordenado
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

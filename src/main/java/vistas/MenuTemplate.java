@@ -3,21 +3,24 @@ package vistas;
 import java.util.Scanner;
 
 public abstract class MenuTemplate {
-	
-	private Scanner sc = new Scanner (System.in);
+
+	private Scanner sc = new Scanner(System.in);
 
 	public abstract void listarClientes();
 
 	public abstract void agregarCliente();
-	
+
 	public abstract void editarCliente();
-	
+
 	public abstract void importarDatos();
-	
+
 	public abstract void exportarDatos();
-	
+
 	public abstract void terminarPrograma();
-	
+
+	/**
+	 * Muestra el menú con todas las opciones y ejecuta el método correspondiente
+	 */
 	public final void iniciarMenu() {
 		int opcion = 0;
 		do {

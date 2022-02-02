@@ -3,6 +3,7 @@ package vistas;
 import java.util.Scanner;
 
 import modelo.CategoriaEnum;
+import modelo.Cliente;
 import servicio.ArchivoServicio;
 import servicio.ClienteServicio;
 import servicio.ExportadorCsv;
@@ -21,6 +22,9 @@ public class Menu extends MenuTemplate {
 	private Scanner sc = new Scanner(System.in);
 	private Utilidad ut = new Utilidad();
 
+	/**
+	 * Muestra cada uno de los clientes en la lista actual
+	 */
 	@Override
 	public void listarClientes() {
 		System.out.println("-------------Datos del Cliente-------------");
@@ -29,6 +33,9 @@ public class Menu extends MenuTemplate {
 		System.out.println("-------------------------------------------");
 	}
 
+	/**
+	 * Agrega un cliente a la lista actual
+	 */
 	@Override
 	public void agregarCliente() {
 		System.out.println("-------------Crear Cliente-------------");
@@ -50,36 +57,44 @@ public class Menu extends MenuTemplate {
 		clienteServicio.agregarCliente(run, nom, ape, anios, CategoriaEnum.Activo);
 	}
 
+	/**
+	 * Edita los datos del cliente diferenciando entre el estado y el resto de datos
+	 */
 	@Override
 	public void editarCliente() {
-		System.out.println("-------------Editar Cliente-------------");
-		System.out.println("Seleccione qué desea hacer: ");
-		System.out.println("1.- Cambiar el estado del Cliente");
-		System.out.println("2.- Editar los datos ingresados del Cliente");
-		System.out.println("3.- Salir");
-		System.out.println();
-		System.out.println("Ingrese su opción: ");
+
 		int opt = 0;
 		String run = "";
-		boolean existe;
+
 		do {
+			System.out.println("-------------Editar Cliente-------------");
+			System.out.println("Seleccione qué desea hacer: ");
+			System.out.println("1.- Cambiar el estado del Cliente");
+			System.out.println("2.- Editar los datos ingresados del Cliente");
+			System.out.println("3.- Salir");
+			System.out.println();
+			System.out.println("Ingrese su opción: ");
+
 			opt = sc.nextInt();
 			System.out.println("---------------------------------------");
 			switch (opt) {
 			case 1:
 				System.out.println("Ingrese el RUN del Cliente a editar");
 				run = sc.next();
-
-					System.out.println("-----Actualizando estado del Cliente----");
-
-					System.out.println("El estado actual del Cliente es: ");
-				
+				clienteServicio.editarEstado(clienteServicio.getListaClientes().get(run));
+				System.out.println("---------------------------------------");
 				break;
 			case 2:
+				System.out.println("Ingrese el RUN del Cliente a editar");
+				run = sc.next();
+				Cliente cl = clienteServicio.getListaClientes().get(run);
+				clienteServicio.editarCliente(run, cl.getNombreCliente(), cl.getApellidoCliente(), cl.getAniosCliente(),
+						cl.getNombreCategoria());
 
 				break;
 			case 3:
-				System.out.println("Saliendo");
+				ut.limpiar();
+				ut.mensajeMenu();
 				break;
 
 			default:
@@ -89,17 +104,29 @@ public class Menu extends MenuTemplate {
 
 	}
 
+	/**
+	 * Importa la lista desde un archivo externo (DBClientes.csv) que ha de estar
+	 * ubicado en el escritorio
+	 */
 	@Override
 	public void importarDatos() {
-		
+
 		clienteServicio.setListaClientes(archivoServicio.cargarDatos(fileName1));
 	}
 
+	/**
+	 * Exporta la lista actual al escritorio Se puede escoger entre el formato .txt
+	 * o .csv
+	 */
 	@Override
 	public void exportarDatos() {
 		archivoServicio.exportar(fileName, clienteServicio.getListaClientes());
 	}
 
+	/**
+	 * Termina la ejecución del programa "Limpiando" la consola y mostrando un
+	 * mensaje
+	 */
 	@Override
 	public void terminarPrograma() {
 		ut.limpiar();

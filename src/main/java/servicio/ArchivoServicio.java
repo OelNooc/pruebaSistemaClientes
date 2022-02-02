@@ -24,11 +24,18 @@ public class ArchivoServicio extends Exportador {
 		this.ec = ec;
 	}
 
+	/**
+	 * Realiza la importación de los datos desde el escritorio al programa como una
+	 * lista (mapa).
+	 * 
+	 * @param fileName: es el nombre del archivo + su extensión
+	 * @return devuelve los datos del archivo como un mapa
+	 */
 	public Map<String, Cliente> cargarDatos(String fileName) {
 
 		File archivo;
 		Map<String, Cliente> listaCliente = new HashMap<String, Cliente>();
-		
+
 		System.out.println("Ingrese su nombre de usuario de su equipo");
 		String us = sc.next();
 
@@ -44,11 +51,7 @@ public class ArchivoServicio extends Exportador {
 				while (data != null) {
 					String[] datos = data.split(",");
 					Cliente cli = new Cliente();
-//					if (datos[4].equals("Activo")) {
-//						cli.getNombreCategoria().setEstado(CategoriaEnum.Activo);
-//					} else {
-//						cli.getNombreCategoria().setEstado(CategoriaEnum.Inactivo);
-//					}
+
 					cli.setRunCliente(datos[0]);
 					cli.setNombreCliente(datos[1]);
 					cli.setApellidoCliente(datos[2]);
@@ -64,13 +67,19 @@ public class ArchivoServicio extends Exportador {
 			}
 			System.out.println("Datos cargados correctamente");
 
-		}else {
+		} else {
 			System.out.println("El archivo no existe");
 		}
 
 		return listaCliente;
 	}
 
+	/**
+	 * Exporta la lista al escritorio, ya sea en formato .txt o .csv
+	 * 
+	 * @param fileName:      es el nombre del archivo
+	 * @param listaClientes: es la lista a exportar
+	 */
 	@Override
 	public void exportar(String fileName, Map<String, Cliente> listaClientes) {
 		int op = 0;
@@ -91,7 +100,7 @@ public class ArchivoServicio extends Exportador {
 			case 3:
 				ut.limpiar();
 				ut.mensajeMenu();
-				
+
 				break;
 			default:
 				break;
