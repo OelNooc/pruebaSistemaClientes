@@ -66,12 +66,12 @@ public class ClienteServicio {
 	 */
 	public void agregarCliente(String runCliente, String nombreCliente, String apellidoCliente, String aniosCliente,
 			CategoriaEnum Activo) {
-		if (listaClientes.get(runCliente) != null) {
+		if (listaClientes.get(runCliente) == null) {
 			Cliente cliente = new Cliente(runCliente, nombreCliente, apellidoCliente, aniosCliente,
 					CategoriaEnum.Activo);
 			this.listaClientes.put(runCliente, cliente);
 		} else {
-			System.out.println("El cliente específicado no existe, revise el RUN entregado");
+			System.out.println("El cliente específicado ya existe, revise el RUN entregado");
 		}
 
 	}
